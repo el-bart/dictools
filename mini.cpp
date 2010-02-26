@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 #include <cstring>
 #include <cassert>
 
@@ -70,18 +71,27 @@ private:
   bool            noMore_;
 }; // class Series
 
-int main(void)
+int main(int argc, char **argv)
 {
+  if(argc<2)
+  {
+    cerr<<argv[0]<<" <len1> <len2> ... <lenN>"<<endl;
+    return 1;
+  }
+
   Cassette cas;
   for(char c='a'; c<='z'; ++c)
     cas.push_back(c);
 
-  Series s(&cas, 3);
-  const char *out;
-  while( ( out=s.next() )!=NULL )
+  for(int i=1; i<argc; ++i)
   {
-    assert( strlen(out)<10 );
-    cout<<out<<endl;
+    Series s(&cas, atoi(argv[i]) );
+    const char *out;
+    while( ( out=s.next() )!=NULL )
+    {
+      assert( strlen(out)<10 );
+      cout<<out<<endl;
+    } // while( permut() )
   }
 
   return 0;
