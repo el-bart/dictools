@@ -79,4 +79,30 @@ void testObj::test<3>(void)
   ensure_equals("invalid output string", out[0].c_str(), std::string("QX") );
 }
 
+namespace
+{
+struct DerivedSize: public Mangler
+{
+  DerivedSize(void):
+    Mangler(42)
+  {
+  }
+
+private:
+  virtual void mangleImpl(const Common::FastString &/*in*/, StringsSet &out)
+  {
+    tut::ensure_equals("invalid collection size", out.size(), 42);
+  }
+}; // struct DerivedSize
+} // unnamed namespace
+
+// check explicit size setting
+template<>
+template<>
+void testObj::test<4>(void)
+{
+  DerivedSize d;
+  d.mangle("ab");   // checking is done here
+}
+
 } // namespace tut

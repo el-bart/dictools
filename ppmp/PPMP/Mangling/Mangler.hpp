@@ -27,6 +27,9 @@ public:
     return out_;
   }
 
+protected:
+  explicit Mangler(size_t size=0);
+
 private:
   virtual void mangleImpl(const Common::FastString &in, StringsSet &out) = 0;
 
