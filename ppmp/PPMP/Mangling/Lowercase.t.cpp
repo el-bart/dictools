@@ -4,24 +4,41 @@
  */
 #include <tut/tut.hpp>
 #include <string>
+#include <cassert>
 
 #include "PPMP/Mangling/Lowercase.hpp"
 
+using namespace std;
+using namespace PPMP;
 using namespace PPMP::Mangling;
 
 namespace
 {
 
-struct TestClass
+struct TestClass: public Processor
 {
-  void check(const char *str, const char *expected)
+  TestClass(void):
+    lc_(*this),
+    expected_(NULL)
   {
-    const Lowercase::StringsSet &out=lc_.mangle(str);
-    tut::ensure_equals("invalid size", out.size(), 1);
-    tut::ensure_equals("invalid value", out[0].c_str(), std::string(expected) );
   }
 
-  Lowercase lc_;
+  void check(const char *str, const char *expected)
+  {
+    expected_=expected;
+    Common::FastString fs(str);
+    lc_.process(fs);
+  }
+
+private:
+  virtual void process(Common::FastString &str)
+  {
+    assert(expected_!=NULL);
+    tut::ensure_equals("invalid string", str.c_str(), string(expected_) );
+  }
+
+  Lowercase   lc_;
+  const char *expected_;
 };
 
 typedef tut::test_group<TestClass> factory;

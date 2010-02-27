@@ -9,8 +9,8 @@ namespace PPMP
 namespace Mangling
 {
 
-Lowercase::Lowercase(void):
-  MangleLUT(1)  // always one reposnse
+Lowercase::Lowercase(Processor &out):
+  MangleLUT(out)
 {
   for(char from='A', to='a'; from<='Z'; ++from, ++to)
     changeLUT(from, to);

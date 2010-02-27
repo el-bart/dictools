@@ -17,8 +17,8 @@ class MangleLUT: public  Mangler,
                  private LookUpTable
 {
 protected:
-  explicit MangleLUT(const size_t size=0):
-    Mangler(size)
+  explicit MangleLUT(Processor &out):
+    Mangler(out)
   {
   }
 
@@ -28,7 +28,7 @@ protected:
   }
 
 private:
-  virtual void mangleImpl(const Common::FastString &in, StringsSet &out);
+  virtual void mangleImpl(Common::FastString &str, Processor &out);
 }; // class Lowercase
 
 } // namespace Mangling

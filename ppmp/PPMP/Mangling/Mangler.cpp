@@ -9,7 +9,7 @@ namespace PPMP
 namespace Mangling
 {
 
-Mangler::Mangler(Output &out):
+Mangler::Mangler(Processor &out):
   out_(out)
 {
 }

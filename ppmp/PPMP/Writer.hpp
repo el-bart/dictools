@@ -11,21 +11,21 @@
 #include <boost/noncopyable.hpp>
 
 #include "Common/FastString.hpp"
-#include "PPMP/Output.hpp"
+#include "PPMP/Processor.hpp"
 
 namespace PPMP
 {
 
-class Writer: private boost::noncopyable,
-              public  Output
+class Writer: public Processor
 {
 public:
   explicit Writer(std::ostream &os);
 
-  void write(const Common::FastString &str);
   virtual void process(Common::FastString &str);
 
 private:
+  void write(const Common::FastString &str);
+
   std::ostream &os_;
 }; // class Writer
 

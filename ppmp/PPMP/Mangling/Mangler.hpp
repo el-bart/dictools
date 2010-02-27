@@ -6,31 +6,28 @@
 #define INCLUDE_PPMP_MANGLING_MANGLER_HPP_FILE
 
 #include "Common/FastString.hpp"
-#include "PPMP/Output.hpp"
+#include "PPMP/Processor.hpp"
 
 namespace PPMP
 {
 namespace Mangling
 {
 
-class Mangler: public Output
+class Mangler: public Processor
 {
 public:
-  const StringsSet &mangle(const Common::FastString &in)
+  virtual void process(Common::FastString &str)
   {
-    mangleImpl(in, out_);
-    return out_;
+    mangleImpl(str, out_);
   }
 
 protected:
-  explicit Mangler(Output &out);
+  explicit Mangler(Processor &out);
 
 private:
-  virtual void mangleImpl(const Common::FastString &in, Output &out) = 0;
-  virtual void proceed(Common::FastString &str);
+  virtual void mangleImpl(Common::FastString &str, Processor &out) = 0;
 
-
-  Output &out_;
+  Processor &out_;
 }; // class Mangler
 
 } // namespace Mangling

@@ -11,20 +11,21 @@ namespace PPMP
 namespace Mangling
 {
 
-NumberAdder::NumberAdder(const Common::Range r):
-  Mangler( r.span() ),
+NumberAdder::NumberAdder(Processor &out, const Common::Range r):
+  Mangler(out),
   r_(r)
 {
 }
 
-void NumberAdder::mangleImpl(const Common::FastString &in, StringsSet &out)
+void NumberAdder::mangleImpl(Common::FastString &str, Processor &out)
 {
-  assert( out.size()==r_.span() );
-  int from=r_.from();
-  for(StringsSet::iterator it=out.begin(); it!=out.end(); ++it)
+  const Common::FastString in  =str;        // make local copy
+  int                      from=r_.from();
+  for(size_t i=0; i<r_.span(); ++i)
   {
-    snprintf( it->get(), Common::FastString::maxSize(), "%s%d", in.c_str(), from);
+    snprintf( str.get(), Common::FastString::maxSize(), "%s%d", in.c_str(), from);
     ++from;
+    out.process(str);
   }
   assert( from==r_.to()+1 );
 }

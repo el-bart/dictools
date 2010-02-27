@@ -15,7 +15,7 @@ namespace Mangling
 class Lowercase: public MangleLUT
 {
 public:
-  Lowercase(void);
+  explicit Lowercase(Processor &out);
 }; // class Lowercase
 
 } // namespace Mangling

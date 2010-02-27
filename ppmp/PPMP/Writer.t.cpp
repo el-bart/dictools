@@ -41,10 +41,10 @@ template<>
 template<>
 void testObj::test<2>(void)
 {
-  stringstream     ss;
-  Writer           w(ss);
-  const FastString fs("abc");
-  w.write(fs);
+  stringstream ss;
+  Writer       w(ss);
+  FastString   fs("abc");
+  w.process(fs);
 
   {
     stringstream tmp;

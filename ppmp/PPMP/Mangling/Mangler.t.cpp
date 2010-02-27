@@ -5,8 +5,10 @@
 #include <tut/tut.hpp>
 
 #include "PPMP/Mangling/Mangler.hpp"
+#include "PPMP/ProcessorStub.t.hpp"
 #include <string>
 
+using namespace PPMP;
 using namespace PPMP::Mangling;
 
 namespace
@@ -14,30 +16,31 @@ namespace
 
 struct Derived: public Mangler
 {
-  Derived(void):
+  Derived(Processor &out):
+    Mangler(out),
     tmp_(NULL)
   {
   }
 
 private:
-  virtual void mangleImpl(const Common::FastString &in, StringsSet &out)
+  virtual void mangleImpl(Common::FastString &str, Processor &out)
   {
     if(tmp_==NULL)
       tmp_=&out;
     else
-      tut::ensure("collection changed", tmp_==&out);
+      tut::ensure("destination processor changed", tmp_==&out);
 
-    out.resize(1);
-    Common::FastString tmp=in;
-    tmp[0]='Q';
-    out[0]=tmp;
+    str[0]='Q';
+    str[1]=0;
+    out.process(str);
   }
 
-  StringsSet *tmp_;
+  Processor *tmp_;
 };
 
 struct TestClass
 {
+  ProcessorStub ps_;
 };
 
 typedef tut::test_group<TestClass> factory;
@@ -55,7 +58,7 @@ template<>
 template<>
 void testObj::test<1>(void)
 {
-  Derived d;
+  Derived d(ps_);
 }
 
 // check virtual call
@@ -63,9 +66,10 @@ template<>
 template<>
 void testObj::test<2>(void)
 {
-  Derived d;
-  d.mangle("abc");
-  d.mangle("x");        // should not throw
+  Derived d(ps_);
+  Common::FastString str("abc");
+  d.process(str);
+  d.process(str);        // should not throw
 }
 
 // check output
@@ -73,36 +77,10 @@ template<>
 template<>
 void testObj::test<3>(void)
 {
-  Derived d;
-  const Derived::StringsSet &out=d.mangle("aX");
-  ensure_equals("invalid output size", out.size(), 1);
-  ensure_equals("invalid output string", out[0].c_str(), std::string("QX") );
-}
-
-namespace
-{
-struct DerivedSize: public Mangler
-{
-  DerivedSize(void):
-    Mangler(42)
-  {
-  }
-
-private:
-  virtual void mangleImpl(const Common::FastString &/*in*/, StringsSet &out)
-  {
-    tut::ensure_equals("invalid collection size", out.size(), 42);
-  }
-}; // struct DerivedSize
-} // unnamed namespace
-
-// check explicit size setting
-template<>
-template<>
-void testObj::test<4>(void)
-{
-  DerivedSize d;
-  d.mangle("ab");   // checking is done here
+  Derived            d(ps_);
+  Common::FastString str("abc");
+  d.process(str);
+  ensure_equals("invalid output string", str.c_str(), std::string("Q") );
 }
 
 } // namespace tut

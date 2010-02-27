@@ -16,10 +16,10 @@ namespace Mangling
 class NumberAdder: public Mangler
 {
 public:
-  explicit NumberAdder(Common::Range r);
+  NumberAdder(Processor &out, Common::Range r);
 
 private:
-  virtual void mangleImpl(const Common::FastString &in, StringsSet &out);
+  virtual void mangleImpl(Common::FastString &str, Processor &out);
 
   const Common::Range r_;
 }; // class Lowercase

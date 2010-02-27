@@ -15,7 +15,7 @@ namespace Mangling
 class Uppercase: public MangleLUT
 {
 public:
-  Uppercase(void);
+  explicit Uppercase(Processor &out);
 }; // class Uppercase
 
 } // namespace Mangling

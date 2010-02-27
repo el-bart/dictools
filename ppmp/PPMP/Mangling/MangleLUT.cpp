@@ -3,20 +3,18 @@
  *
  */
 #include "PPMP/Mangling/Lowercase.hpp"
-#include <cassert>
 
 namespace PPMP
 {
 namespace Mangling
 {
 
-void MangleLUT::mangleImpl(const Common::FastString &in, StringsSet &out)
+void MangleLUT::mangleImpl(Common::FastString &str, Processor &out)
 {
-  assert( out.size()==1 );
-  Common::FastString &str=out[0];
-  out[0]=0; // in case loop never executed
-  for(int i=0; in[i]!=0; ++i)
-    str[i]=(*this)[ in[i] ];    // perform LUT
+  for(int i=0; str[i]!=0; ++i)
+    str[i]=(*this)[ str[i] ];    // perform LUT
+
+  out.process(str);
 }
 
 } // namespace Mangling

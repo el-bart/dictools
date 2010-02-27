@@ -15,15 +15,15 @@ Writer::Writer(std::ostream &os):
 {
 }
 
+void Writer::process(Common::FastString &str)
+{
+  write(str);
+}
+
 void Writer::write(const Common::FastString &str)
 {
   assert( str.c_str()!=NULL );
   os_<<str.c_str()<<endl;
-}
-
-void process(Common::FastString &str)
-{
-  write(str);
 }
 
 } // namespace PPMP
