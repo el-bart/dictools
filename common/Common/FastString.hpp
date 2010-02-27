@@ -5,6 +5,7 @@
 #ifndef INCLUDE_COMMON_FASTSTRING_HPP_FILE
 #define INCLUDE_COMMON_FASTSTRING_HPP_FILE
 
+#include <string>
 #include <cstdlib>
 #include <cstring>
 #include <cassert>
@@ -24,13 +25,7 @@ public:
 
   FastString(const char *str)
   {
-    if(str==NULL)
-      data_[0]=0;
-    else
-    {
-      strncpy(data_, str, sizeof(data_) );
-      data_[maxSize()]=0;   // ensure NULL-termination
-    }
+    fromString(str);
   }
 
   char operator[](unsigned char pos) const
@@ -60,10 +55,33 @@ public:
     return sizeof(data_)-1;
   }
 
+  const FastString &operator=(const char *str)
+  {
+    fromString(str);
+    return *this;
+  }
+
+  const FastString &operator=(const std::string &str)
+  {
+    fromString( str.c_str() );
+    return *this;
+  }
+
 private:
   void assertPos(unsigned char pos) const
   {
     assert( pos<=maxSize() && "requested index out of scope" );
+  }
+
+  void fromString(const char *str)
+  {
+    if(str==NULL)
+      data_[0]=0;
+    else
+    {
+      strncpy(data_, str, sizeof(data_) );
+      data_[maxSize()]=0;   // ensure NULL-termination
+    }
   }
 
   char data_[64+1];   // max password length

@@ -5,7 +5,6 @@
 #include <tut/tut.hpp>
 
 #include "Common/FastString.hpp"
-#include <string>
 
 using namespace Common;
 
@@ -101,6 +100,36 @@ void testObj::test<8>(void)
 {
   const FastString fs(NULL);
   check(fs, "");
+}
+
+// check assignment of C-string
+template<>
+template<>
+void testObj::test<9>(void)
+{
+  FastString fs("abc");
+  fs="xyz";
+  check(fs, "xyz");
+}
+
+// check assignment of NULL C-string
+template<>
+template<>
+void testObj::test<10>(void)
+{
+  FastString fs("abc");
+  fs=NULL;
+  check(fs, "");
+}
+
+// check assignment of std::string
+template<>
+template<>
+void testObj::test<11>(void)
+{
+  FastString fs("abc");
+  fs=std::string("qwerty");
+  check(fs, "qwerty");
 }
 
 } // namespace tut
