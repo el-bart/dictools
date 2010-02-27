@@ -60,10 +60,6 @@ private:
   virtual void mangleImpl(Common::FastString &str, Processor &out)
   {
     boost::mpl::for_each<TVectorC>( MakeSubst(c_, &out, str) );
-    //for(size_t i=0; i<boost::mpl::size<TVectorC>::type::value; ++i)
-    /*{
-      const char         change=boost::mpl::at_c<TVectorC, i>::type::value;
-    }*/
   }
 
   const char c_;
