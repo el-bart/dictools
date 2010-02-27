@@ -1,12 +1,6 @@
 list of provided tools
 ----------------------
 
-simpledigen
-===========
-simple dictionary generator - make passwords of a given
-length, consisting of lowercase letters.
-
-
 ppmp
 ===========
 Password Pipe Mangling Program is a tool to generate
