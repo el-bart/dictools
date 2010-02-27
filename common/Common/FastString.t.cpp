@@ -132,4 +132,14 @@ void testObj::test<11>(void)
   check(fs, "qwerty");
 }
 
+// test assigning too long string
+template<>
+template<>
+void testObj::test<12>(void)
+{
+  FastString fs("xyz");
+  fs="01234567890123456789012345678901234567890123456789012345678901234";
+  check(fs, "0123456789012345678901234567890123456789012345678901234567890123"); // note: last dig truncated
+}
+
 } // namespace tut
