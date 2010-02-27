@@ -2,6 +2,9 @@
  * FastString.hpp
  *
  */
+#ifndef INCLUDE_COMMON_FASTSTRING_HPP_FILE
+#define INCLUDE_COMMON_FASTSTRING_HPP_FILE
+
 #include <cstdlib>
 #include <cstring>
 #include <cassert>
@@ -67,3 +70,5 @@ private:
 }; // class FastString
 
 } // namespace Common
+
+#endif
