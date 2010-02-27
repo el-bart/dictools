@@ -3,7 +3,6 @@
  *
  */
 #include "PPMP/Mangling/Lowercase.hpp"
-#include <cassert>
 
 namespace PPMP
 {
