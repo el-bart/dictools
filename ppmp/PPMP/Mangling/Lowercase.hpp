@@ -5,20 +5,17 @@
 #ifndef INCLUDE_PPMP_MANGLING_LOWERCASE_HPP_FILE
 #define INCLUDE_PPMP_MANGLING_LOWERCASE_HPP_FILE
 
-#include "PPMP/Mangling/Mangler.hpp"
+#include "PPMP/Mangling/MangleLUT.hpp"
 
 namespace PPMP
 {
 namespace Mangling
 {
 
-class Lowercase: public Mangler
+class Lowercase: public MangleLUT
 {
 public:
   Lowercase(void);
-
-private:
-  virtual void mangleImpl(const Common::FastString &in, StringsSet &out);
 }; // class Lowercase
 
 } // namespace Mangling
