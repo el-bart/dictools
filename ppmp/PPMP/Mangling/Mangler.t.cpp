@@ -79,11 +79,4 @@ void testObj::test<3>(void)
   ensure_equals("invalid output string", out[0].c_str(), std::string("QX") );
 }
 
-// 
-template<>
-template<>
-void testObj::test<4>(void)
-{
-}
-
 } // namespace tut
