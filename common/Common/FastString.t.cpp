@@ -142,4 +142,13 @@ void testObj::test<12>(void)
   check(fs, "0123456789012345678901234567890123456789012345678901234567890123"); // note: last dig truncated
 }
 
+// check getting terminating zero with []
+template<>
+template<>
+void testObj::test<13>(void)
+{
+  FastString fs("0123456789012345678901234567890123456789012345678901234567890123");
+  ensure("unable to get last char", fs[ FastString::maxSize() ]==0 );
+}
+
 } // namespace tut
