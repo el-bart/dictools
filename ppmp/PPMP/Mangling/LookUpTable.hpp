@@ -12,21 +12,32 @@ namespace PPMP
 namespace Mangling
 {
 
+/** \brief lookup table's engine implementation.
+ */
 class LookUpTable
 {
 public:
+  /** \brief transform with LUT operation.
+   *  \param c input char.
+   *  \return LUT-translated char.
+   */
   char operator[](const char c) const
   {
     return lut_[ index(c) ];
   }
 
 protected:
+  /** \brief create instence.
+   */
   LookUpTable(void)
   {
     for(int i=0; i<static_cast<int>( sizeof(lut_) ); ++i)
       lut_[i]=static_cast<char>(i);
   }
-
+  /** \brief modifiy LUT mapping.
+   *  \param from position to modify.
+   *  \param to   new entry.
+   */
   void changeEntry(const char from, const char to)
   {
     lut_[ index(from) ]=to;

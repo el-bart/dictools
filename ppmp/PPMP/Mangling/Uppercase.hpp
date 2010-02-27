@@ -12,9 +12,14 @@ namespace PPMP
 namespace Mangling
 {
 
+/** \brief convert string to upper-case processor.
+ */
 class Uppercase: public MangleLUT
 {
 public:
+  /** \brief create processor.
+   *  \param out next (output) processor.
+   */
   explicit Uppercase(Processor &out);
 }; // class Uppercase
 

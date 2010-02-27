@@ -16,11 +16,18 @@
 namespace PPMP
 {
 
+/** \brief output processor (sink).
+ */
 class Writer: public Processor
 {
 public:
+  /** \brief create output processor.
+   *  \param os stream to write to.
+   */
   explicit Writer(std::ostream &os);
-
+  /** \brief output data to stream.
+   *  \param str string to write.
+   */
   virtual void process(Common::FastString &str);
 
 private:

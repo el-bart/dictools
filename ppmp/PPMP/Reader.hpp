@@ -15,11 +15,22 @@
 namespace PPMP
 {
 
+/** \brief data reader.
+ *
+ *  reads each input line and returns it as s string.
+ */
 class Reader: private boost::noncopyable
 {
 public:
+  /** \brief create reader.
+   *  \param is input stream to read from.
+   */
   explicit Reader(std::istream &is);
 
+  /** \brief read entry.
+   *  \param out output string paramter.
+   *  \return true if reading succedded, false otherwise.
+   */
   bool read(Common::FastString &out);
 
 private:

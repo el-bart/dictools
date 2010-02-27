@@ -13,15 +13,23 @@ namespace PPMP
 namespace Mangling
 {
 
+/** \brief generic LUT-processor implementation.
+ */
 class MangleLUT: public  Mangler,
                  private LookUpTable
 {
 protected:
+  /** \brief create processor.
+   *  \param out next (output) processor.
+   */
   explicit MangleLUT(Processor &out):
     Mangler(out)
   {
   }
-
+  /** \brief method for changing entry in LUT.
+   *  \param from position to modify.
+   *  \param to   new entry.
+   */
   inline void changeLUT(const char from, const char to)
   {
     changeEntry(from, to);

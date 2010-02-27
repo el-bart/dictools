@@ -13,9 +13,15 @@ namespace PPMP
 namespace Mangling
 {
 
+/** \brief processor appending numbers at the end of string.
+ */
 class NumberAdder: public Mangler
 {
 public:
+  /** \brief create processor.
+   *  \param out next (output) processor.
+   *  \param r   range to generate.
+   */
   NumberAdder(Processor &out, Common::Range r);
 
 private:

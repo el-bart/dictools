@@ -12,9 +12,14 @@ namespace PPMP
 namespace Mangling
 {
 
+/** \brief mangler converting string to lower case.
+ */
 class Lowercase: public MangleLUT
 {
 public:
+  /** \brief create processor.
+   *  \param out next (output) processor.
+   */
   explicit Lowercase(Processor &out);
 }; // class Lowercase
 

@@ -13,15 +13,23 @@ namespace PPMP
 namespace Mangling
 {
 
+/** \brief mangler interface (processor type).
+ */
 class Mangler: public Processor
 {
 public:
+  /** \brief process string.
+   *  \param str string to be processed.
+   */
   virtual void process(Common::FastString &str)
   {
     mangleImpl(str, out_);
   }
 
 protected:
+  /** \brief create processor.
+   *  \param out next (output) processor.
+   */
   explicit Mangler(Processor &out);
 
 private:
