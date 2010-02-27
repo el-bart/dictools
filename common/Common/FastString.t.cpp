@@ -94,4 +94,13 @@ void testObj::test<7>(void)
   ensure_equals("invalid char 3", fs[2], 'c');
 }
 
+// check creation from NULL
+template<>
+template<>
+void testObj::test<8>(void)
+{
+  const FastString fs(NULL);
+  check(fs, "");
+}
+
 } // namespace tut
