@@ -75,8 +75,13 @@ public:
 private:
   void assertPos(unsigned char pos) const
   {
+    ignore(pos);
     assert( pos<=maxSize() && "requested index out of scope" );
   }
+  void ignore(unsigned char) const
+  {
+  }
+
 
   void fromString(const char *str)
   {
