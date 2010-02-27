@@ -17,7 +17,7 @@ class MangleLUT: public  Mangler,
                  private LookUpTable
 {
 protected:
-  MangleLUT(const size_t size=0):
+  explicit MangleLUT(const size_t size=0):
     Mangler(size)
   {
   }
