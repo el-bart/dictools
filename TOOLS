@@ -1,0 +1,17 @@
+list of provided tools
+----------------------
+
+simpledigen
+===========
+simple dictionary generator - make passwords of a given
+length, consisting of lowercase letters.
+
+
+ppmp
+===========
+Password Pipe Mangling Program is a tool to generate
+common variations out of the passwords provided on stdin.
+it can do things like add number on the begin/end, reverse
+passwords, make anagrams, lower case, upper case, etc...
+in general it provides a set of passwords for each entry on
+given input.
