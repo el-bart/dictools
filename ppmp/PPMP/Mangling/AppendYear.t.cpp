@@ -1,5 +1,5 @@
 /*
- * AppendShortYear.t.cpp
+ * AppendYear.t.cpp
  *
  */
 #include <tut/tut.hpp>
@@ -7,7 +7,7 @@
 #include <sstream>
 #include <queue>
 
-#include "PPMP/Mangling/AppendShortYear.hpp"
+#include "PPMP/Mangling/AppendYear.hpp"
 
 using namespace std;
 using namespace PPMP;
@@ -19,7 +19,7 @@ namespace
 struct TestClass: public Processor
 {
   TestClass(void):
-    asy_(*this)
+    ay_(*this)
   {
   }
 
@@ -32,43 +32,35 @@ struct TestClass: public Processor
     q_.pop();
   }
 
-  AppendShortYear asy_;
+  AppendYear ay_;
 };
 
 typedef tut::test_group<TestClass> factory;
 typedef factory::object            testObj;
 
-factory tf("PPMP/Mangling/AppendShortYear");
+factory tf("PPMP/Mangling/AppendYear");
 } // unnamed namespace
 
 
 namespace tut
 {
 
-// test appending short year
+// test appending year
 template<>
 template<>
 void testObj::test<1>(void)
 {
   // prepare results to collect
-  for(int i=70; i<=99; ++i)
+  for(int i=1970; i<=2010; ++i)
   {
     stringstream ss;
     ss<<"abc"<<i;
     q_.push( ss.str() );
   }
-  for(int i=0; i<=9; ++i)
-  {
-    stringstream ss;
-    ss<<"abc0"<<i;
-    q_.push( ss.str() );
-  }
-  q_.push("abc10");
-  q_.push("abc11");
 
   // test
   Common::FastString fs("abc");
-  asy_.process(fs);
+  ay_.process(fs);
 
   // check if nothing has left
   ensure_equals("not all elements generated", q_.size(), 0);
