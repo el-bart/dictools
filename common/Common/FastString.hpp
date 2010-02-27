@@ -45,6 +45,11 @@ public:
     return data_;
   }
 
+  char *get(void)
+  {
+    return data_;
+  }
+
   size_t size(void) const
   {
     return strlen(data_);

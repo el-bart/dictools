@@ -151,4 +151,14 @@ void testObj::test<13>(void)
   ensure("unable to get last char", fs[ FastString::maxSize() ]==0 );
 }
 
+// check direct writing to buffer
+template<>
+template<>
+void testObj::test<14>(void)
+{
+  FastString fs("abc");
+  strcpy(fs.get()+1, "XXaab");
+  check(fs, "aXXaab");
+}
+
 } // namespace tut
