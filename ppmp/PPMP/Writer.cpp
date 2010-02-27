@@ -21,4 +21,9 @@ void Writer::write(const Common::FastString &str)
   os_<<str.c_str()<<endl;
 }
 
+void process(Common::FastString &str)
+{
+  write(str);
+}
+
 } // namespace PPMP

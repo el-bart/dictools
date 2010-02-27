@@ -5,22 +5,17 @@
 #ifndef INCLUDE_PPMP_MANGLING_MANGLER_HPP_FILE
 #define INCLUDE_PPMP_MANGLING_MANGLER_HPP_FILE
 
-#include <vector>
-
 #include "Common/FastString.hpp"
+#include "PPMP/Output.hpp"
 
 namespace PPMP
 {
 namespace Mangling
 {
 
-class Mangler
+class Mangler: public Output
 {
 public:
-  typedef std::vector<Common::FastString> StringsSet;
-
-  virtual ~Mangler(void);
-
   const StringsSet &mangle(const Common::FastString &in)
   {
     mangleImpl(in, out_);
@@ -28,12 +23,14 @@ public:
   }
 
 protected:
-  explicit Mangler(size_t size=0);
+  explicit Mangler(Output &out);
 
 private:
-  virtual void mangleImpl(const Common::FastString &in, StringsSet &out) = 0;
+  virtual void mangleImpl(const Common::FastString &in, Output &out) = 0;
+  virtual void proceed(Common::FastString &str);
 
-  StringsSet out_;
+
+  Output &out_;
 }; // class Mangler
 
 } // namespace Mangling
