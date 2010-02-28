@@ -3,9 +3,9 @@
  *
  */
 #include <tut/tut.hpp>
-#include <string>
-#include <sstream>
+#include <map>
 #include <queue>
+#include <string>
 
 #include "PPMP/Mangling/LeetSpeakChar.hpp"
 
@@ -16,15 +16,32 @@ using namespace PPMP::Mangling;
 namespace
 {
 
-struct TestClass: public Processor
+struct TestClass: public CallForwarder,
+                  public LUTUpdater
 {
-  queue<string> q_;
+  map<char, char> out_;
+  queue<string>   expected_;
 
-  virtual void process(Common::FastString &str)
+  virtual void processNext(void)
   {
-    tut::ensure("too many elements produced", q_.size()>0 );
-    tut::ensure_equals("invalid string", str.c_str(), q_.front() );
-    q_.pop();
+    stringstream from;
+    stringstream to;
+    // compute results
+    for(map<char, char>::const_iterator it=out_.begin(); it!=out_.end(); ++it)
+    {
+      from<<it->first;
+      to  <<it->second;
+    }
+    const string tmp=from.str() + "->" + to.str();
+
+    // check
+    tut::ensure_equals("invalid translation", tmp, expected_.front() );
+    expected_.pop();
+  }
+
+  virtual void updateLUT(char from, char to)
+  {
+    out_[from]=to;
   }
 };
 
@@ -43,17 +60,16 @@ template<>
 template<>
 void testObj::test<1>(void)
 {
-  LeetSpeakChar<'a', boost::mpl::vector_c<char, 'X', 'Y', 'Z'> > lsc(*this);
-  q_.push("XAbX");
-  q_.push("YAbY");
-  q_.push("ZAbZ");
+  LeetSpeakChar<'a', boost::mpl::vector_c<char, 'X', 'Y', 'Z'> > lsc(*this, *this);
+  expected_.push("a->X");
+  expected_.push("a->Y");
+  expected_.push("a->Z");
 
   // test
-  Common::FastString fs("aAba");
-  lsc.process(fs);
+  lsc.processNext();
 
   // check if nothing has left
-  ensure_equals("not all elements generated", q_.size(), 0);
+  ensure_equals("not all elements generated", expected_.size(), 0);
 }
 
 // test 1-element subsitution
@@ -61,15 +77,14 @@ template<>
 template<>
 void testObj::test<2>(void)
 {
-  LeetSpeakChar<'a', boost::mpl::vector_c<char, 'Z'> > lsc(*this);
-  q_.push("ZAbZ");
+  LeetSpeakChar<'a', boost::mpl::vector_c<char, 'Z'> > lsc(*this, *this);
+  expected_.push("a->Z");
 
   // test
-  Common::FastString fs("aAba");
-  lsc.process(fs);
+  lsc.processNext();
 
   // check if nothing has left
-  ensure_equals("not all elements generated", q_.size(), 0);
+  ensure_equals("not all elements generated", expected_.size(), 0);
 }
 
 // test chain
@@ -77,21 +92,20 @@ template<>
 template<>
 void testObj::test<3>(void)
 {
-  LeetSpeakChar<'a', boost::mpl::vector_c<char, 'A','@','x'> > lscA(*this);
-  LeetSpeakChar<'b', boost::mpl::vector_c<char, 'B','8'> >     lscB(lscA);
-  q_.push("ABc");
-  q_.push("@Bc");
-  q_.push("xBc");
-  q_.push("A8c");
-  q_.push("@8c");
-  q_.push("x8c");
+  LeetSpeakChar<'a', boost::mpl::vector_c<char, 'Z', 'Q', 'F'> > lscA(*this, *this);
+  LeetSpeakChar<'b', boost::mpl::vector_c<char, 'X', 'W'> >      lscB(lscA,  *this);
+  expected_.push("ab->ZX");
+  expected_.push("ab->QX");
+  expected_.push("ab->FX");
+  expected_.push("ab->ZW");
+  expected_.push("ab->QW");
+  expected_.push("ab->FW");
 
   // test
-  Common::FastString fs("abc");
-  lscB.process(fs);
+  lscB.processNext();
 
   // check if nothing has left
-  ensure_equals("not all elements generated", q_.size(), 0);
+  ensure_equals("not all elements generated", expected_.size(), 0);
 }
 
 } // namespace tut

@@ -7,56 +7,90 @@
 
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/vector_c.hpp>
-
-#include "PPMP/Mangling/Mangler.hpp"
+#include <boost/noncopyable.hpp>
+#include <cassert>
 
 namespace PPMP
 {
 namespace Mangling
 {
 
+/** \brief createor of objects' call chain.
+ */
+struct CallForwarder: private boost::noncopyable
+{
+  /** \brief ensure polymorphic deallocation.
+   */
+  virtual ~CallForwarder(void)
+  {
+  }
+  /** \brief forwards to next caller.
+   */
+  virtual void processNext(void) = 0;
+}; // struct CallForwarder
+
+
+/** \brief proxy for updating LUT table entries.
+ */
+struct LUTUpdater: private boost::noncopyable
+{
+  /** \brief ensure polymorphic deallocation.
+   */
+  virtual ~LUTUpdater(void)
+  {
+  }
+  /** \brief update entry in LUT table.
+   *  \param from char to be translated.
+   *  \param to   char to tranlsate to.
+   */
+  virtual void updateLUT(char from, char to) = 0;
+}; // struct LUTupdater
+
+
 /** \brief converts given char to most common leet-speak equivalents.
  */
 template<char C, typename TVectorC>
-class LeetSpeakChar: public Mangler
+class LeetSpeakChar: public CallForwarder
 {
 public:
   /** \brief create processor.
-   *  \param out next (output) processor.
+   *  \param next    forward to next element in chain.
+   *  \param lutUpdt proxy object for LUT updating.
    */
-  explicit LeetSpeakChar(Processor &out):
-    Mangler(out)
+  LeetSpeakChar(CallForwarder &next, LUTUpdater &lutUpdt):
+    f_(next, lutUpdt)
   {
+  }
+  /** \brief entry point for processing.
+   */
+  virtual void processNext(void)
+  {
+    boost::mpl::for_each<TVectorC>(f_);
   }
 
 private:
-  struct MakeSubst
+  // helpoer object to do work in each call
+  struct FuncObj
   {
-    MakeSubst(Processor *out, const Common::FastString &str):
-      out_(out),
-      str_(str)
+    FuncObj(CallForwarder &next, LUTUpdater &lutUpdt):
+      next_(&next),
+      lutUpdt_(&lutUpdt)
     {
     }
 
-    void operator()(const char t) const
+    void operator()(const char t)
     {
-      Common::FastString tmp;
-      for(size_t j=0; j<str_.size(); ++j)
-        tmp[j]=(str_[j]==C)?t:str_[j];
-      tmp[ str_.size() ]=0;
-
-      out_->process(tmp);
+      assert(lutUpdt_!=NULL);
+      assert(next_   !=NULL);
+      lutUpdt_->updateLUT(C, t);    // overwite previous entry
+      next_->processNext();         // continue execution
     }
 
-    Processor          *out_;
-    Common::FastString  str_;
-  }; // struct MakeSubst
+    CallForwarder *next_;
+    LUTUpdater    *lutUpdt_;
+  }; // struct FuncObj
 
-
-  virtual void mangleImpl(Common::FastString &str, Processor &out)
-  {
-    boost::mpl::for_each<TVectorC>( MakeSubst(&out, str) );
-  }
+  FuncObj f_;
 }; // class LeetSpeakChar
 
 } // namespace Mangling
