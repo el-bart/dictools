@@ -17,24 +17,22 @@ namespace Mangling
 
 /** \brief converts given char to most common leet-speak equivalents.
  */
-template<typename TVectorC>
+template<char C, typename TVectorC>
 class LeetSpeakChar: public MangleLUT
 {
 public:
   /** \brief create processor.
    *  \param out next (output) processor.
    */
-  LeetSpeakChar(Processor &out, char c):
-    MangleLUT(out),
-    c_(c)
+  explicit LeetSpeakChar(Processor &out):
+    MangleLUT(out)
   {
   }
 
 private:
   struct MakeSubst
   {
-    MakeSubst(const char c, Processor *out, const Common::FastString &str):
-      c_(c),
+    MakeSubst(Processor *out, const Common::FastString &str):
       out_(out),
       str_(str)
     {
@@ -45,13 +43,12 @@ private:
     {
       Common::FastString tmp;
       for(size_t j=0; j<str_.size(); ++j)
-        tmp[j]=(str_[j]==c_)?t:str_[j];
+        tmp[j]=(str_[j]==C)?t:str_[j];
       tmp[ str_.size() ]=0;
 
       out_->process(tmp);
     }
 
-    char                c_;
     Processor          *out_;
     Common::FastString  str_;
   }; // struct MakeSubst
@@ -59,10 +56,8 @@ private:
 
   virtual void mangleImpl(Common::FastString &str, Processor &out)
   {
-    boost::mpl::for_each<TVectorC>( MakeSubst(c_, &out, str) );
+    boost::mpl::for_each<TVectorC>( MakeSubst(&out, str) );
   }
-
-  const char c_;
 }; // class LeetSpeakChar
 
 } // namespace Mangling

@@ -43,7 +43,7 @@ template<>
 template<>
 void testObj::test<1>(void)
 {
-  LeetSpeakChar< boost::mpl::vector_c<char, 'X', 'Y', 'Z'> > lsc(*this, 'a');
+  LeetSpeakChar<'a', boost::mpl::vector_c<char, 'X', 'Y', 'Z'> > lsc(*this);
   q_.push("XAbX");
   q_.push("YAbY");
   q_.push("ZAbZ");
@@ -61,7 +61,7 @@ template<>
 template<>
 void testObj::test<2>(void)
 {
-  LeetSpeakChar< boost::mpl::vector_c<char, 'Z'> > lsc(*this, 'a');
+  LeetSpeakChar<'a', boost::mpl::vector_c<char, 'Z'> > lsc(*this);
   q_.push("ZAbZ");
 
   // test
