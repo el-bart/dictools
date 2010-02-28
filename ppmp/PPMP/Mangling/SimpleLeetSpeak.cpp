@@ -24,6 +24,9 @@ SimpleLeetSpeak::SimpleLeetSpeak(Processor &out):
   changeLUT('s', '$');
   changeLUT('S', '$');
 
+  changeLUT('t', '7');
+  changeLUT('T', '7');
+
   changeLUT('o', '0');
   changeLUT('O', '0');
 

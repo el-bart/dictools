@@ -50,10 +50,10 @@ template<>
 template<>
 void testObj::test<1>(void)
 {
-  q_.push("4488Cc3311JjLl005z");
+  q_.push("4488Cc3311JjLl005z77");
 
   // test
-  Common::FastString fs("AaBbCcEeIiJjLlOoSs");
+  Common::FastString fs("AaBbCcEeIiJjLlOoSsTt");
   sls_.process(fs);
 
   // check if nothing has left
