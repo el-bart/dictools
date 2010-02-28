@@ -8,7 +8,7 @@
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/vector_c.hpp>
 
-#include "PPMP/Mangling/MangleLUT.hpp"
+#include "PPMP/Mangling/Mangler.hpp"
 
 namespace PPMP
 {
@@ -18,14 +18,14 @@ namespace Mangling
 /** \brief converts given char to most common leet-speak equivalents.
  */
 template<char C, typename TVectorC>
-class LeetSpeakChar: public MangleLUT
+class LeetSpeakChar: public Mangler
 {
 public:
   /** \brief create processor.
    *  \param out next (output) processor.
    */
   explicit LeetSpeakChar(Processor &out):
-    MangleLUT(out)
+    Mangler(out)
   {
   }
 
@@ -38,8 +38,7 @@ private:
     {
     }
 
-    template<typename T>
-    void operator()(const T t) const
+    void operator()(const char t) const
     {
       Common::FastString tmp;
       for(size_t j=0; j<str_.size(); ++j)

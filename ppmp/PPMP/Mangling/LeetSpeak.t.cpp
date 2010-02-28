@@ -22,6 +22,7 @@ struct TestClass: public Processor
 
   virtual void process(Common::FastString &str)
   {
+    // TODO
     //assert( str.size()<3 );
     cerr<<endl<<str.c_str()<<" vs "<<q_.front()<<endl;
     tut::ensure("too many elements produced", q_.size()>0 );
@@ -46,6 +47,7 @@ template<>
 void testObj::test<1>(void)
 {
   LeetSpeak ls(*this);
+  cerr<<"SIZE "<<sizeof(ls)<<endl;
   q_.push("@52");
   q_.push("452");
   q_.push("@$2");
