@@ -11,7 +11,6 @@ namespace Mangling
 
 LeetSpeak::LeetSpeak(Processor &out):
   Mangler(out),
-
   a_(out), A_(a_),
   b_(A_),  B_(b_),
   c_(B_),  C_(c_),
