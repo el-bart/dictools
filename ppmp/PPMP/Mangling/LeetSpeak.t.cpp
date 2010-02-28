@@ -60,12 +60,6 @@ void testObj::test<1>(void)
   q_.push("4$2");
   q_.push("@z2");
   q_.push("4z2");
-  q_.push("@5s");
-  q_.push("45s");
-  q_.push("@$s");
-  q_.push("4$s");
-  q_.push("@zs");
-  q_.push("4zs");
 
   // test
   Common::FastString fs("asz");
@@ -134,7 +128,7 @@ struct IgnoreProcessor: public Processor
 } // unnamed namespace
 
 // smoke test processing when all elements are to be mixed.
-// NOTE: this test produces almost 8 milions results (!) and so takes it takes
+// NOTE: this test produces over 1.3 milion results (!) and so takes it takes
 //       some time for it to finish.
 template<>
 template<>

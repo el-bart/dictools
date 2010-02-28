@@ -70,44 +70,39 @@ void LeetSpeak::mangleImpl(Common::FastString &str, Processor &out)
   next=addIfCharInUse<'c', boost::mpl::vector_c<char, '[','<','('> >(str, cc, next, *this);
   next=addIfCharInUse<'C', boost::mpl::vector_c<char, '[','<','('> >(str, cc, next, *this);
 
-  next=addIfCharInUse<'d', boost::mpl::vector_c<char, ')'> >(str, cc, next, *this);
-  next=addIfCharInUse<'D', boost::mpl::vector_c<char, ')'> >(str, cc, next, *this);
+  next=addIfCharInUse<'d', boost::mpl::vector_c<char, 'd', ')'> >(str, cc, next, *this);
+  next=addIfCharInUse<'D', boost::mpl::vector_c<char, 'D', ')'> >(str, cc, next, *this);
 
   next=addIfCharInUse<'e', boost::mpl::vector_c<char, '3'> >(str, cc, next, *this);
   next=addIfCharInUse<'E', boost::mpl::vector_c<char, '3'> >(str, cc, next, *this);
 
-  next=addIfCharInUse<'f', boost::mpl::vector_c<char, 'v'> >(str, cc, next, *this);
-  next=addIfCharInUse<'F', boost::mpl::vector_c<char, 'v'> >(str, cc, next, *this);
+  // no 'f'
 
-  next=addIfCharInUse<'g', boost::mpl::vector_c<char, '&','9'> >(str, cc, next, *this);
-  next=addIfCharInUse<'G', boost::mpl::vector_c<char, '&','6'> >(str, cc, next, *this);
+  next=addIfCharInUse<'g', boost::mpl::vector_c<char, '9'> >(str, cc, next, *this);
+  next=addIfCharInUse<'G', boost::mpl::vector_c<char, '6'> >(str, cc, next, *this);
 
-  next=addIfCharInUse<'h', boost::mpl::vector_c<char, '#'> >(str, cc, next, *this);
-  next=addIfCharInUse<'H', boost::mpl::vector_c<char, '#'> >(str, cc, next, *this);
+  next=addIfCharInUse<'h', boost::mpl::vector_c<char, 'h', '#'> >(str, cc, next, *this);
+  next=addIfCharInUse<'H', boost::mpl::vector_c<char, 'H', '#'> >(str, cc, next, *this);
 
   next=addIfCharInUse<'i', boost::mpl::vector_c<char, '1','!'> >(str, cc, next, *this);
   next=addIfCharInUse<'I', boost::mpl::vector_c<char, '1','!'> >(str, cc, next, *this);
 
   // no 'j'
 
-  next=addIfCharInUse<'k', boost::mpl::vector_c<char, 'x'> >(str, cc, next, *this);
-  next=addIfCharInUse<'K', boost::mpl::vector_c<char, 'X'> >(str, cc, next, *this);
+  next=addIfCharInUse<'k', boost::mpl::vector_c<char, 'k', 'x'> >(str, cc, next, *this);
+  next=addIfCharInUse<'K', boost::mpl::vector_c<char, 'K', 'X'> >(str, cc, next, *this);
 
   next=addIfCharInUse<'l', boost::mpl::vector_c<char, '1', '7'> >(str, cc, next, *this);
   next=addIfCharInUse<'L', boost::mpl::vector_c<char, '1', '7'> >(str, cc, next, *this);
 
   // no 'm'
-
-  next=addIfCharInUse<'n', boost::mpl::vector_c<char, '^'> >(str, cc, next, *this);
-  next=addIfCharInUse<'N', boost::mpl::vector_c<char, '^'> >(str, cc, next, *this);
+  // no 'n'
 
   next=addIfCharInUse<'o', boost::mpl::vector_c<char, '0'> >(str, cc, next, *this);
   next=addIfCharInUse<'O', boost::mpl::vector_c<char, '0'> >(str, cc, next, *this);
 
   // no 'p'
-
   // no 'q'
-
   // no 'r'
 
   next=addIfCharInUse<'s', boost::mpl::vector_c<char, '5','$','z'> >(str, cc, next, *this);
@@ -120,16 +115,12 @@ void LeetSpeak::mangleImpl(Common::FastString &str, Processor &out)
   next=addIfCharInUse<'U', boost::mpl::vector_c<char, 'V'> >(str, cc, next, *this);
 
   // no 'v'
-
   // no 'w'
-
   // no 'x'
+  // no 'y'
 
-  next=addIfCharInUse<'y', boost::mpl::vector_c<char, '4','7'> >(str, cc, next, *this);
-  next=addIfCharInUse<'Y', boost::mpl::vector_c<char, '4','7'> >(str, cc, next, *this);
-
-  next=addIfCharInUse<'z', boost::mpl::vector_c<char, '2','s'> >(str, cc, next, *this);
-  next=addIfCharInUse<'Z', boost::mpl::vector_c<char, '2','S'> >(str, cc, next, *this);
+  next=addIfCharInUse<'z', boost::mpl::vector_c<char, '2'> >(str, cc, next, *this);
+  next=addIfCharInUse<'Z', boost::mpl::vector_c<char, '2'> >(str, cc, next, *this);
 
   assert(next!=NULL);
   next->processNext();      // go!
