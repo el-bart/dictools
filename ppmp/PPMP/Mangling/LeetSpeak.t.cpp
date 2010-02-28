@@ -23,11 +23,15 @@ struct TestClass: public Processor
   virtual void process(Common::FastString &str)
   {
     assert( str.size()<=3 );
-cerr<<endl<<str.c_str()<<" vs "<<q_.front()<<endl;                                                  
+    if( string( str.c_str() )==str_.c_str() )   // this means empty run
+      return;
+
     tut::ensure("too many elements produced", q_.size()>0 );
     tut::ensure_equals("invalid string", str.c_str(), q_.front() );
     q_.pop();
   }
+
+  Common::FastString str_;
 };
 
 typedef tut::test_group<TestClass> factory;
@@ -46,7 +50,6 @@ template<>
 void testObj::test<1>(void)
 {
   LeetSpeak ls(*this);
-cerr<<"SIZE "<<sizeof(ls)<<endl;                                                                                      
   q_.push("@52");
   q_.push("452");
   q_.push("@$2");
@@ -68,6 +71,7 @@ cerr<<"SIZE "<<sizeof(ls)<<endl;
 
   // test
   Common::FastString fs("asz");
+  str_=fs;
   ls.process(fs);
 
   // check if nothing has left
@@ -89,6 +93,23 @@ void testObj::test<2>(void)
 
   // test
   Common::FastString fs("as");
+  str_=fs;
+  ls.process(fs);
+
+  // check if nothing has left
+  ensure_equals("not all elements generated", q_.size(), 0);
+}
+
+// test translation, when no transofrmation is present
+template<>
+template<>
+void testObj::test<3>(void)
+{
+  LeetSpeak ls(*this);
+
+  // test
+  Common::FastString fs("vwx");
+  str_=fs;
   ls.process(fs);
 
   // check if nothing has left
