@@ -20,6 +20,8 @@
 #include "PPMP/Mangling/SimpleLeetSpeak.hpp"
 #include "PPMP/Mangling/Typo.hpp"
 #include "PPMP/Mangling/Uppercase.hpp"
+#include "PPMP/Mangling/AllCases.hpp"
+#include "PPMP/Mangling/Underscore.hpp"
 
 using namespace std;
 using namespace Common;
@@ -63,9 +65,11 @@ int main(int /*argc*/, char **argv)
     Uppercase uc(wr);
     procs.push_back(&uc);
 
+    AllCases ac(wr);
+    procs.push_back(&ac);
 
-    //Processor   &p=na;
-    // TODO
+    Underscore us(wr);
+    procs.push_back(&us);
 
     FastString str;
     while( rd.read(str) )
