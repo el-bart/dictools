@@ -12,7 +12,7 @@ namespace Mangling
 {
 
 AppendYear::AppendYear(Processor &out):
-  NumberAdder(out, Range(1970, 2010) )
+  NumberAdder(out, Range(1950, 2011) )  // TODO: fix this
 {
 }
 
