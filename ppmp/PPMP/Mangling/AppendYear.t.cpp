@@ -51,7 +51,7 @@ template<>
 void testObj::test<1>(void)
 {
   // prepare results to collect
-  for(int i=1970; i<=2010; ++i)
+  for(int i=1950; i<=2011; ++i)
   {
     stringstream ss;
     ss<<"abc"<<i;
