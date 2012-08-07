@@ -1,4 +1,1 @@
-dictools
-========
-
-dictionary generation tools
+doc/readme.txt
