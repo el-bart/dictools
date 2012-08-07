@@ -1,0 +1,4 @@
+dictools
+========
+
+dictionary generation tools
