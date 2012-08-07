@@ -1,0 +1,45 @@
+# basic directories used in project
+include build_process/makefiles/common/dirs.mk
+
+# basic configuration for project
+include $(BUILD_CONFIG_BASE_DIR)/config.mk
+
+# check basic constraints
+include $(MAKEFILES_COMMON_BASE_DIR)/main_constraints.mk
+
+# define tools being used
+include $(MAKEFILES_COMMON_BASE_DIR)/tools.mk
+# flags for some of tools
+include $(MAKEFILES_COMMON_BASE_DIR)/basic_flags.mk
+
+# define rules to make basic operations
+include $(MAKEFILES_COMMON_BASE_DIR)/rules.mk
+
+# define main macros used within this Makefile
+include $(MAKEFILES_COMMON_BASE_DIR)/main_macros.mk
+
+# make all dependencies for all components in gen
+TMP:=$(shell mkdir -p "$(GEN_COMPONENTS_DEPS_DIR)" && \
+             $(MAKE_COMPONENTDEPS_SCRIPT) \
+               "$(SRC_BASE_DIR)" \
+               "$(GEN_COMPONENTS_DEPS_DIR)" \
+               "$(COMPONENT_DEPS_REL_PATH)" \
+               "$(GEN_LIBS_DIR)" \
+               `cat $(COMPONENTS_LISTS) 2>/dev/null` 1>&2 )
+TMP:=
+
+# ensure default target is defined in proper way
+include $(GEN_COMPONENTS_DEPS_DIR)/_default_target_.mk
+
+# make pre-build requirements
+include $(MAKEFILES_COMMON_BASE_DIR)/pre_build.mk
+
+# include all generated component-dependencies
+include $(wildcard $(GEN_COMPONENTS_DEPS_DIR)/[^_]*.mk)
+
+
+# clean specific profile
+.PHONY: clean
+clean:
+	rm -rfv $(GEN_BASE_DIR)/$(PROFILE)_$(TC)_$(MEM_CHECK)
+
